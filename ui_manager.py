@@ -51,7 +51,17 @@ class PlayerContainer(QFrame):
         AttributeManager.apply_attributes(self, attributes)
 
     def get_player_data(self):
-        return self.player_item.get_player_data()
+        return {
+            "first_name": self.attributes.get("first_name", self.firstNameBox.text()),
+            "last_name": self.attributes.get("last_name", self.lastNameBox.text()),
+            "position": self.attributes.get("position", self.positionBox.text()),
+            "captaincy": self.attributes.get("captaincy", "None"),
+            "playing_time": self.attributes.get("playing_time", "None"),
+            "contract": self.attributes.get("contract", "None"),
+            "foreign": self.attributes.get("foreign", False),
+            "youth": self.attributes.get("youth", False),
+            "injury": self.attributes.get("injury", False)
+        }
 
 
 class UIManager:
@@ -66,6 +76,11 @@ class UIManager:
         self.load_action = main_window.findChild(QAction, "actionLoad")
 
         if hasattr(main_window, "actionLoad"):
+            try:
+                main_window.actionLoad.triggered.disconnect()
+            except TypeError:
+                pass
+
             main_window.actionLoad.triggered.connect(self.load_saved_players)
         else:
             print("actionLoad not found in MainWindow.")
@@ -110,23 +125,43 @@ class UIManager:
 
         attributes = self.selected_player.get_player_data()
 
-        # Text attributes
+        # Block signals before updating UI fields (prevents auto-triggering update_selected_player)
+        self.first_name_input.blockSignals(True)
+        self.last_name_input.blockSignals(True)
+        self.position_input.blockSignals(True)
+        self.captaincy_dropdown.blockSignals(True)
+        self.playing_time_dropdown.blockSignals(True)
+        self.contract_dropdown.blockSignals(True)
+        self.foreign_checkbox.blockSignals(True)
+        self.youth_checkbox.blockSignals(True)
+        self.injury_checkbox.blockSignals(True)
+
+        # Update UI fields
         self.first_name_input.setText(attributes.get("first_name", ""))
         self.last_name_input.setText(attributes.get("last_name", ""))
         self.position_input.setText(attributes.get("position", ""))
-
-        # Dropdown attributes
         self.captaincy_dropdown.setCurrentText(
             attributes.get("captaincy", "None"))
         self.playing_time_dropdown.setCurrentText(
             attributes.get("playing_time", "None"))
         self.contract_dropdown.setCurrentText(
             attributes.get("contract", "None"))
-
-        # Checkbox attributes
         self.foreign_checkbox.setChecked(attributes.get("foreign", False))
         self.youth_checkbox.setChecked(attributes.get("youth", False))
         self.injury_checkbox.setChecked(attributes.get("injury", False))
+
+        # Unblock signals after setting values
+        self.first_name_input.blockSignals(False)
+        self.last_name_input.blockSignals(False)
+        self.position_input.blockSignals(False)
+        self.captaincy_dropdown.blockSignals(False)
+        self.playing_time_dropdown.blockSignals(False)
+        self.contract_dropdown.blockSignals(False)
+        self.foreign_checkbox.blockSignals(False)
+        self.youth_checkbox.blockSignals(False)
+        self.injury_checkbox.blockSignals(False)
+
+        print(attributes)
 
     def update_selected_player(self):
         # Updates the selected player's attributes and UI.
@@ -146,12 +181,12 @@ class UIManager:
             "injury": self.injury_checkbox.isChecked()
         }
 
-        self.selected_player.attributes.update(updated_attributes)
-        self.selected_player.update_ui()
-        self.save_players()
+        if updated_attributes != self.selected_player.attributes:
+            self.selected_player.attributes.update(updated_attributes)
+            self.selected_player.update_ui()
+            self.save_players()
 
     def add_player(self, attributes=None):
-        """ Adds a new PlayerContainer (which contains a PlayerItem) to the UI. """
         if attributes is None:
             attributes = {
                 "first_name": "First",

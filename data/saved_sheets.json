@@ -1,12 +1,12 @@
 {
     "players": [
         {
-            "first_name": "John",
+            "first_name": "Johnny",
             "last_name": "Doe",
             "position": "CAM",
             "captaincy": "Captain",
             "playing_time": "Star",
-            "contract": "Offered",
+            "contract": "Expiring",
             "foreign": true,
             "youth": false,
             "injury": true,

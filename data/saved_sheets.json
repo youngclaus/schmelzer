@@ -1,0 +1,30 @@
+{
+    "players": [
+        {
+            "first_name": "John",
+            "last_name": "Doe",
+            "position": "CAM",
+            "captaincy": "Captain",
+            "playing_time": "Star",
+            "contract": "Offered",
+            "foreign": true,
+            "youth": false,
+            "injury": true,
+            "loan": "Loaned In",
+            "transfer": "Transferring Out"
+        },
+        {
+            "first_name": "Chris",
+            "last_name": "Young",
+            "position": "ST",
+            "captaincy": "Vice Captain",
+            "playing_time": "Important",
+            "contract": "Expiring",
+            "foreign": false,
+            "youth": true,
+            "injury": false,
+            "loan": "Loaned Out",
+            "transfer": "Transferring In"
+        }
+    ]
+}

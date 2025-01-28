@@ -1,0 +1,35 @@
+QFrame#horizontalFrame {
+  border-radius: 6px;
+  background-color: #ebecec;
+}
+
+QFrame#horizontalFrame:hover {
+  background-color: #efeae7;
+}
+
+QLabel#firstNameBox, QLabel#lastNameBox {
+  padding-right: 5px;
+}
+
+QLabel#firstNameBox {
+  background: transparent;
+  font: 25 16pt "Dubai Light";
+  color: black;
+  border: none;
+  padding-right: 15px;
+}
+
+QLabel#lastNameBox {
+  background: transparent;
+  font: 24pt "Dubai";
+  color: black;
+  border: none;
+  padding-right: 3px;
+}
+
+QLabel#positionBox {
+  background: transparent;
+  font: 20pt "Dubai";
+  color: black;
+  border: none;
+}
